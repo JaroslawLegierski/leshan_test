@@ -41,6 +41,7 @@ import org.eclipse.leshan.core.demo.LwM2mDemoConstant;
 import org.eclipse.leshan.core.demo.cli.ShortErrorMessageHandler;
 import org.eclipse.leshan.core.model.ObjectLoader;
 import org.eclipse.leshan.core.model.ObjectModel;
+import org.eclipse.leshan.server.OscoreServerHandler;
 import org.eclipse.leshan.server.californium.LeshanServer;
 import org.eclipse.leshan.server.californium.LeshanServerBuilder;
 import org.eclipse.leshan.server.core.demo.json.servlet.SecurityServlet;
@@ -194,6 +195,9 @@ public class LeshanServerDemo {
 
         // Set DTLS Config
         builder.setDtlsConfig(dtlsConfig);
+
+        // TODO OSCORE this should be removed
+        builder.setOscoreCtxDB(OscoreServerHandler.getContextDB());
 
         // Define model provider
         List<ObjectModel> models = ObjectLoader.loadAllDefault();

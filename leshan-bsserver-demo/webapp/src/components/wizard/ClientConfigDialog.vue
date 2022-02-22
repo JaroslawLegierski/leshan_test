@@ -126,12 +126,18 @@
 import { toHex, base64ToBytes } from "@leshan-server-core-demo/js/byteutils.js";
 import EndpointStep from "./EndpointStep.vue";
 import SecurityStep from "./SecurityStep.vue";
-import DeleteStep from './DeleteStep.vue';
+import DeleteStep from "./DeleteStep.vue";
 import ServerStep from "./ServerStep.vue";
 import BootstrapServerStep from "./BootstrapServerStep.vue";
 
 export default {
-  components: { EndpointStep, SecurityStep, ServerStep, BootstrapServerStep, DeleteStep },
+  components: {
+    EndpointStep,
+    SecurityStep,
+    ServerStep,
+    BootstrapServerStep,
+    DeleteStep,
+  },
   props: { value: Boolean /*open/close dialog*/ },
   data() {
     return {
@@ -190,7 +196,7 @@ export default {
           dm: { mode: "no_sec" },
           bs: null,
           toDelete: ["/0", "/1"],
-          autoIdForSecurityObject:false
+          autoIdForSecurityObject: false,
         };
         this.currentStep = 1;
         for (let i = 1; i <= this.nbSteps; i++) {
@@ -243,7 +249,9 @@ export default {
       }
 
       // apply endpoint to security
-      res.security.endpoint = res.endpoint
+      if (res.security) {
+        res.security.endpoint = res.endpoint;
+      }
 
       return res;
     },

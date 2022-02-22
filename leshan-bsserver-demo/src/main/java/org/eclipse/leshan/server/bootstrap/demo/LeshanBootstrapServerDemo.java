@@ -34,6 +34,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.leshan.core.demo.cli.ShortErrorMessageHandler;
 import org.eclipse.leshan.core.model.ObjectLoader;
 import org.eclipse.leshan.core.model.ObjectModel;
+import org.eclipse.leshan.server.OscoreBootstrapHandler;
 import org.eclipse.leshan.server.bootstrap.EditableBootstrapConfigStore;
 import org.eclipse.leshan.server.bootstrap.demo.cli.LeshanBsServerDemoCLI;
 import org.eclipse.leshan.server.bootstrap.demo.servlet.BootstrapServlet;
@@ -156,6 +157,9 @@ public class LeshanBootstrapServerDemo {
 
         // Set DTLS Config
         builder.setDtlsConfig(dtlsConfig);
+
+        // TODO OSCORE this should be removed
+        builder.setOscoreCtxDB(OscoreBootstrapHandler.getContextDB());
 
         // Create Models
         List<ObjectModel> models = ObjectLoader.loadDefault();
