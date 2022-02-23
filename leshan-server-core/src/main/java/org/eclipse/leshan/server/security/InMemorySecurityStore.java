@@ -24,6 +24,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.eclipse.leshan.server.security.oscore.OscoreIdentity;
+
 /**
  * A {@link SecurityStore} which store {@link SecurityInfo} in memory.
  */
@@ -69,6 +71,15 @@ public class InMemorySecurityStore implements EditableSecurityStore {
         } finally {
             readLock.unlock();
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public SecurityInfo getByOscoreIdentity(OscoreIdentity pskIdentity) {
+        // TODO OSCORE to be implemented
+        return null;
     }
 
     @Override

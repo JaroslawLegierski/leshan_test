@@ -24,6 +24,7 @@ import org.eclipse.leshan.server.security.NonUniqueSecurityInfoException;
 import org.eclipse.leshan.server.security.SecurityInfo;
 import org.eclipse.leshan.server.security.SecurityStore;
 import org.eclipse.leshan.server.security.SecurityStoreListener;
+import org.eclipse.leshan.server.security.oscore.OscoreIdentity;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.params.ScanParams;
@@ -75,6 +76,12 @@ public class RedisSecurityStore implements EditableSecurityStore {
                 }
             }
         }
+    }
+
+    @Override
+    public SecurityInfo getByOscoreIdentity(OscoreIdentity pskIdentity) {
+        // TODO OSCORE to be implemented
+        return null;
     }
 
     @Override

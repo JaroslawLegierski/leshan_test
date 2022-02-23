@@ -20,18 +20,9 @@ import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.Arrays;
 
-import org.eclipse.californium.cose.AlgorithmID;
-import org.eclipse.californium.cose.CoseException;
-// TODO OSCORE leshan-server-core must not depends of Californium project
-import org.eclipse.californium.oscore.HashMapCtxDB;
-import org.eclipse.californium.oscore.OSCoreCtx;
-import org.eclipse.californium.oscore.OSException;
 import org.eclipse.leshan.core.util.Hex;
 import org.eclipse.leshan.core.util.Validate;
-import org.eclipse.leshan.server.OscoreServerHandler;
 import org.eclipse.leshan.server.security.oscore.OscoreSetting;
-
-import com.upokecenter.cbor.CBORObject;
 
 /**
  * The security info for a client.
@@ -124,27 +115,7 @@ public class SecurityInfo implements Serializable {
     // TODO OSCORE rename in newOscoreInfo
     public static SecurityInfo newOSCoreInfo(String endpoint, OscoreSetting oscoreSetting) {
         Validate.notNull(oscoreSetting);
-
-        // TODO OSCORE remove access to context here.
-        // Add the OSCORE Context to the context database
-        HashMapCtxDB db = OscoreServerHandler.getContextDB();
-        db.addContext(getContext(oscoreSetting));
-
         return new SecurityInfo(endpoint, null, null, null, false, oscoreSetting);
-    }
-
-    private static OSCoreCtx getContext(OscoreSetting oscoreSetting) {
-        try {
-            OSCoreCtx osCoreCtx = new OSCoreCtx(oscoreSetting.getMasterSecret(), true,
-                    AlgorithmID.FromCBOR(CBORObject.FromObject(oscoreSetting.getAeadAlgorithm())),
-                    oscoreSetting.getSenderId(), oscoreSetting.getRecipientId(),
-                    AlgorithmID.FromCBOR(CBORObject.FromObject(oscoreSetting.getHmacAlgorithm())), 32,
-                    oscoreSetting.getMasterSalt(), null, 1000);
-            osCoreCtx.setContextRederivationEnabled(true);
-            return osCoreCtx;
-        } catch (OSException | CoseException e) {
-            throw new IllegalStateException("Unable to create OSCoreContext", e);
-        }
     }
 
     /**
